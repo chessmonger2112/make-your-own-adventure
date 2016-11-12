@@ -4,8 +4,8 @@ var map = {
   text: "Welcome to Mongerville!",
   options: [
     {
-      option: "Go left",
-      summary: "You went left.",
+      option: "Go east",
+      summary: "You went east.",
       text: "You have arrived at Magic Mountain",
       options: [
         {
@@ -23,8 +23,8 @@ var map = {
       ]
     },
     {
-      option: "Go right",
-      summary: "You went right.",
+      option: "Go west",
+      summary: "You went west.",
       text: "You have arrived at the ocean",
       options: [
         {
@@ -48,28 +48,30 @@ var currentNode = map;
 var currentText = currentNode.text;
 var currentOptions = currentNode.options;
 
-function html(element, text)
+function html(element, text, attributes)
 {
-  return `<${element}>${text}</${element}>`;
+  return `<${element} ${attributes}>${text}</${element}>`;
 }
 
 function renderTurn()
 {
   $("#currentText").text(currentText);
   $("#options").empty();
-  currentOptions.forEach(option => $("#options").append(html("li", option.option)));
+  currentOptions.forEach((option, index) => $("#options").append(html("li", option.option,"data-index=" + index + " class='option'")));
+
+  $(".option").click(function(event) {
+    var currentIndex = Number($(this).data("index"));
+    currentNode = currentNode.options[currentIndex];
+    currentText = currentNode.text;
+    currentOptions = currentNode.options;
+
+    renderTurn();
+  });
 }
 
-$("#go").click(function(event) {
-  var selectedNumber = $("#selectedNumber").val();
-  console.log("I go! " + selectedNumber);
-  var currentIndex = selectedNumber - 1;
-  currentNode = currentNode.options[currentIndex];
-  currentText = currentNode.text;
-  currentOptions = currentNode.options;
 
-  renderTurn();
-});
+
+
 
 renderTurn();
 

@@ -2,12 +2,25 @@
   text-align: center;
   list-style-position:inside;
 }
-input{
-  display: inline-block;
-  width: 2%
+
+.option {
+  border: solid black;
+  width: 100%;
+  margin: 5px 0;
+  padding: 25px;
 }
 
-.filler{
-  display: inline-block;
-  width: 49%
+.option:hover {
+  background-color: yellow;
+}
+
+
+.options {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.gray {
+  background-color: gray;
 }
