@@ -2,17 +2,36 @@
 <html>
   <head>
     <title>Adventure Maker</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <h1 class="center">Make your own adventure!</h1>
-    <div class="center">
-      <textarea  name="prompt"></textarea>
-      <ol id="options" class="center options">Options:
-        <li>Option1</li>
-      </ol>
-      <input id="newOption" type="text"><button id="addOption">Add option</button>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="center">Make your own adventure!</h1>
+          <div class="center">
+            <button id="showScenario">New Scenario</button>
+            <div id="scenario" class="displayNone">
+              <textarea id="prompt" name="prompt"></textarea>
+              <ol id="options" class="center options">Options:
+                <li>Option1</li>
+              </ol>
+              <div>
+                <input id="newOption" type="text"><button id="addOption">Add option</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="outputContainer">
+            <h4 class="center">Json Output</h4>
+            <div id="output"></div>
+          </div>
+        </div>
+      </div>
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/maker.js"></script>
   </body>

@@ -24,3 +24,30 @@
 .gray {
   background-color: gray;
 }
+
+.displayNone {
+  display: none;
+}
+
+html {
+    height: 100%;
+}
+
+.outputContainer {
+  background-color: black;
+  color: white;
+  height: 100vh;
+}
+
+#prompt {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#newOption {
+  width: 85%;
+}
+
+#addOption {
+  width: 15%;
+}
