@@ -2,11 +2,8 @@ $(function(){
   console.log("sup!");
   map = {};
 
-  var currentOptions = ["Option1"];
+  var currentOptions = [];
   var currentText = "";
-
-
-
 
 
   $("#addOption").click(function() {
@@ -15,9 +12,13 @@ $(function(){
     addToMap();
   });
 
-  $("#showScenario").click(function() {
-    $("#scenario").show();
-  });
+  function bindNewScenarios()
+  {
+    $(".newScenario").unbind().click(function() {
+      var index = $(this).data("number");
+      console.log("new scenario here! " + index);
+    });
+  }
 
 
   function addToMap()
@@ -29,10 +30,21 @@ $(function(){
 function addOption()
 {
   var newOption = $("#newOption").val();
-  $("#newOption").val("");
-  var newElement = html("li", newOption);
-  $(".options").append(newElement);
+  var newOptionElement = html("div", newOption, "class='option optionEditor'");
+  var index = currentOptions.length;
   currentOptions.push(newOption);
+
+  var button = html("button", "New","class='newScenario' data-number=" + index);
+  var column1 = html("div", newOptionElement, "class='col-md-10 noPadding' ");
+  var column2 = html("div", button, "class='col-md-2 noPadding'");
+
+  var row = html("div", column1 + column2, "class='row'");
+  var container = html("div", row, "class='container'");
+  var newElement = html("li", row);
+
+  $("#newOption").val("");
+  $(".options").append(newElement);
+  bindNewScenarios();
 }
 
 
@@ -51,7 +63,7 @@ function updatePrompt()
   promptString += prompt;
 
   promptString += ",";
-  var newElement = html("div",promptString);
+  var newElement = html("div", promptString);
   currentText = prompt;
   $("#output").append(newElement);
 }
@@ -72,5 +84,4 @@ function html(element, text="", attributes="")
 {
   return `<${element} ${attributes}>${text}</${element}>`;
 }
-yoh = html;
 });

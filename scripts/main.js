@@ -1,65 +1,56 @@
 $(function(){
 console.log("sup");
-map = {
-  summary: "",
-  prompt: "Which way to go?",
-  options: [
-    {
-      option: "Go east",
-      next: {
-        summary: "You went east.",
-        prompt: "You have arrived at Magic Mountain",
-        options: [
+
+
+function Scenario(summary, prompt, options)
+{
+  this.summary = summary;
+  this.prompt = prompt;
+  this.options = options;
+}
+
+var sunbathing = new Scenario("You went sunbathing. Game Over.", "", []);
+var swimming = new Scenario("You went swimming. Game Over", "", []);
+var loitering = new Scenario("You loitered outside so hard, that everyone thinks you're the coolest kid ever. Game Over, you won.", "",[]);
+var inside = new Scenario("You went inside. Game Over", "", []);
+var east = new Scenario("You went east.", "You have arrived at Magic Mountain", [
           {
             option: "Go inside",
-            next: {
-              summary: "You went inside. Game Over",
-              prompt: "",
-              options: []
-            }
+            next: inside
           },
           {
             option: "Loiter outside like a cool kid.",
-            next: {
-              summary: "You loitered outside so hard, that everyone thinks you're the coolest kid ever. Game Over, you won.",
-              prompt: "",
-              options: []
-            }
+            next: loitering
           }
-        ]
-      }
-    },
-    {
-      option: "Go west",
-      next: {
-        summary: "You went west.",
-        prompt: "You have arrived at the ocean",
-        options: [
+        ]);
+var west = new Scenario("You went west.", "You have arrived at the ocean", [
           {
             option: "Go swimming",
-            next: {
-              summary: "You went swimming. Game Over",
-              prompt: "",
-              options: []
-            }
+            next: swimming
           },
           {
             option: "Go sunbathing",
-            next: {
-              summary: "You went sunbathing. Game Over.",
-              prompt: "",
-              options: []
-            }
+            next: sunbathing
           }
-        ]
-      }
-    }
-  ]
-};
+        ]);
 
-var currentNode = map;
+var start = new Scenario("", "Which way to go?", [
+    {
+      option: "Go east",
+      next: east
+    },
+    {
+      option: "Go west",
+      next: west
+    }
+  ]);
+
+
+map = start;
+
+currentNode = map;
 var currentPrompt= currentNode.prompt;
-var currentOptions = currentNode.options;
+currentOptions = currentNode.options;
 var currentSummary = currentNode.summary;
 
 function html(element, text, attributes)
@@ -84,13 +75,6 @@ function renderTurn()
     renderTurn();
   });
 }
-
-function Scenario()
-{
-
-}
-
-
 
 renderTurn();
 

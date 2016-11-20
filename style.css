@@ -8,6 +8,14 @@
   width: 100%;
   margin: 5px 0;
   padding: 25px;
+  background-color: gray;
+}
+
+.newScenario {
+  margin: 5px 0 5px 0;
+  padding: 25px;
+  width: 100%;
+  border: solid black;
 }
 
 .option:hover {
@@ -21,16 +29,19 @@
   margin: 0;
 }
 
+.optionEditor {
+  width: 100%;
+}
+.noPadding {
+  padding: 0;
+}
+
 .gray {
   background-color: gray;
 }
 
 .displayNone {
   display: none;
-}
-
-html {
-    height: 100%;
 }
 
 .outputContainer {
