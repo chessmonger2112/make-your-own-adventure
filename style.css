@@ -19,7 +19,7 @@
 }
 
 .option:hover {
-  background-color: yellow;
+  background-color: #DDD;
 }
 
 
@@ -48,6 +48,10 @@
   background-color: black;
   color: white;
   height: 100vh;
+}
+
+#outputTextContainer {
+  /*margin: 10px;*/
 }
 
 #prompt {
