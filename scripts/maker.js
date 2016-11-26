@@ -10,13 +10,18 @@ $("#addOption").click(function() {
   addOptionToView(); //needs to be called before obj is added to the array or index will be off by one.
 
   addToMap();
-
+  s.graph.clear();
+  // s.graph.kill();
+  yPositioner = {};
+  lastOptionNodeId = null;
+  mapNodes(map);
   $("#newOption").val("");
   $("#output").empty(); //has to be before sendMapToOutput call
 
   sendMapToOutput(map); //displays the information of the map to the output window
   bindToScenarios(map); // make dictionary of scenarios
   bindNewScenarios(); //attaching event handler to newly created options
+  s.refresh();
 });
 
 function addToMap()
