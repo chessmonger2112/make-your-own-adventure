@@ -4,10 +4,9 @@
 
     y = 1;
 
-    function makeNode(id, label, x, y, size, color)
+    function makeNode(id, label, x, y, size, color, scenario)
     {
-      var node = {id, label, x, y, size, color};
-      node.classz="Im a class";
+      var node = {id, label, x, y, size, color, scenario};
       return node;
     }
 
@@ -38,8 +37,7 @@
 
       var initialNodeId = "m0" + randomNumber;
       var initialNodeLabel = currentNode.prompt;
-      promptNode = makeNode(initialNodeId, initialNodeLabel, x, initialNodeHeight, 2, "#E00");
-        debugger;
+      promptNode = makeNode(initialNodeId, initialNodeLabel, x, initialNodeHeight, 2, "#E00", initialNodeLabel);
       var source = promptNode.id;
       s.graph.addNode(promptNode);
       if (lastOptionNodeId != null) //If previous option node exists, draw edge from that to current prompt
@@ -48,12 +46,11 @@
         var lastEdge = makeEdge(lastEdgeID, lastOptionNodeId, source);
         s.graph.addEdge(lastEdge);
       }
-        // debugger;
       currentNode.options.forEach((option, index) => {
         var nodeId = "n" + (index +1) + randomNumber;
         var label = option.option;
         var optionX = x + index;
-        var newNode = makeNode(nodeId, label, optionX, y, 1, "#000");
+        var newNode = makeNode(nodeId, label, optionX, y, 1, "#000", initialNodeLabel);
 
         var edgeId = "e" + index + randomNumber;
         var newEdge = makeEdge(edgeId, source, newNode.id);
@@ -81,12 +78,33 @@
       y --;
     }
 
-    // mapNodes(map);
+function doAddOptionToView(newOption, index) //creates and adds the new option to the view
+{
+  var newOptionElement = html("div", newOption, "class='option optionEditor'");
+  var button = html("button", "New","class='newScenario' data-number=" + index);
+  var column1 = html("div", newOptionElement, "class='col-md-10 noPadding' ");
+  var column2 = html("div", button, "class='col-md-2 noPadding'");
+
+  var row = html("div", column1 + column2, "class='row'");
+  var container = html("div", row, "class='container'");
+  var newElement = html("li", row);
+  $(".options").append(newElement);
+}
 
     s.bind('clickNode', function(event) {
-      var label = event.data.node.label;
-      console.log(event.data.node.size = 100);
-      document.getElementById("currentNode").innerHTML = label;
+      var scenario = event.data.node.scenario;
+      currentNode = scenarios[scenario];
+      currentOptions = currentNode.options;
+      console.log(scenario);
+      $(".options").empty();
+
+      var currentPrompt = currentNode.prompt;
+      $("#prompt").val(currentPrompt);
+      currentOptions.forEach((option, index) => {
+        // $("#options").append(html("li", option.option,"data-index=" + index + " class='option'")));
+      doAddOptionToView(option.option, index);
+      bindNewScenarios();
+      });
     });
     // s.refresh();
     // Finally, let's ask our sigma instance to refresh:

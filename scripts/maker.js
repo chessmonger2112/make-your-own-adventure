@@ -1,6 +1,9 @@
 $(function(){
 console.log("sup!");
 
+//TODO: replace global currentOptions with a local version
+
+
 map = {}; //by not modifing map explicitly, map will remain the head of the 'linked list'
 currentNode = map;
 currentNode.options = [];
@@ -8,21 +11,23 @@ currentOptions = currentNode.options;
 
 $("#addOption").click(function() {
   addOptionToView(); //needs to be called before obj is added to the array or index will be off by one.
-
   addToMap();
-  s.graph.clear();
-  // s.graph.kill();
-  yPositioner = {};
-  lastOptionNodeId = null;
+  resetMap();
   mapNodes(map);
-  $("#newOption").val("");
-  $("#output").empty(); //has to be before sendMapToOutput call
-
   sendMapToOutput(map); //displays the information of the map to the output window
   bindToScenarios(map); // make dictionary of scenarios
   bindNewScenarios(); //attaching event handler to newly created options
   s.refresh();
 });
+
+function resetMap()
+{
+  s.graph.clear();
+  yPositioner = {};
+  lastOptionNodeId = null;
+  $("#newOption").val("");
+  $("#output").empty();
+}
 
 function addToMap()
 {
@@ -35,14 +40,14 @@ function addToMap()
   currentOptions.push(newOptionObj);
 }
 
-function bindNewScenarios()
+ bindNewScenarios = function()
 {
   $(".newScenario").unbind().click(function() { //gets called when a new scenario is added
     var index = $(this).data("number");
     var newNode = {summary:"", prompt:"", options:[]};
     currentOptions[index].next = newNode; //attaches the new node to the option
     currentNode = newNode; //variable currentNode now references the newest node.
-    currentOptions = newNode.options; //current options now references the newest options array
+    currentOptions = newNode.options; //current options now references the newest options array //change to currentNode.options?
     currentPrompt = newNode.prompt;
     clear();
   });
@@ -56,7 +61,7 @@ function clear()
 
 function addOptionToView() //creates and adds the new option to the view
 {
-  var newOption = $("#newOption").val();
+  var newOption = $("#newOption").val(); //have this passed in to the function?
   var index = currentOptions.length;
   var newOptionElement = html("div", newOption, "class='option optionEditor'");
   var button = html("button", "New","class='newScenario' data-number=" + index);
@@ -104,7 +109,7 @@ function doUpdateOptions(options)
   output.append(optionsString);
 }
 
-function html(element, text="", attributes="")
+ html = function(element, text="", attributes="")
 {
   return `<${element} ${attributes}>${text}</${element}>`;
 }
