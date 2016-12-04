@@ -1,13 +1,14 @@
 $(function(){
 console.log("sup!");
 
-//TODO: replace global currentOptions with a local version
-
+//TODO: Figure out why does child node go to the right on some parent nodes
+//TODO: Have it not shrink vertically as more nodes are created horizontally
+//TODO: Make options editable
+//TODO: Make summaries available, should summaries be absorbed in to prompt?
 
 map = {}; //by not modifing map explicitly, map will remain the head of the 'linked list'
 currentNode = map;
 currentNode.options = [];
-currentOptions = currentNode.options;
 
 $("#addOption").click(function() {
   addOptionToView(); //needs to be called before obj is added to the array or index will be off by one.
@@ -19,6 +20,25 @@ $("#addOption").click(function() {
   bindNewScenarios(); //attaching event handler to newly created options
   s.refresh();
 });
+
+$("#saveButton").click(function() {
+  console.log("Saved!");
+
+  var url = "http://localhost:3000/save";
+  $.ajax({
+    url: url,
+    type: 'post',
+    data: {map: "SdfsD"},
+    success: success
+  })
+  // .done(function(data) {
+  //   console.log("success " + data);
+  // });
+});
+
+var success = function(data) {
+  console.log("success " + data);
+}
 
 function resetMap()
 {
@@ -37,6 +57,7 @@ function addToMap()
   currentNode.prompt = currentPrompt;
 
   var newOptionObj = {option: newOption, next: null};
+  var currentOptions = currentNode.options;
   currentOptions.push(newOptionObj);
 }
 
@@ -45,6 +66,7 @@ function addToMap()
   $(".newScenario").unbind().click(function() { //gets called when a new scenario is added
     var index = $(this).data("number");
     var newNode = {summary:"", prompt:"", options:[]};
+    var currentOptions = currentNode.options;
     currentOptions[index].next = newNode; //attaches the new node to the option
     currentNode = newNode; //variable currentNode now references the newest node.
     currentOptions = newNode.options; //current options now references the newest options array //change to currentNode.options?
@@ -62,6 +84,7 @@ function clear()
 function addOptionToView() //creates and adds the new option to the view
 {
   var newOption = $("#newOption").val(); //have this passed in to the function?
+  var currentOptions = currentNode.options;
   var index = currentOptions.length;
   var newOptionElement = html("div", newOption, "class='option optionEditor'");
   var button = html("button", "New","class='newScenario' data-number=" + index);

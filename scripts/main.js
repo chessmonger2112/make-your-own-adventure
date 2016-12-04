@@ -63,7 +63,8 @@ function renderTurn()
   $("#currentPrompt").text(currentPrompt);
   $("#summary").text(currentSummary);
   $("#options").empty();
-  currentOptions.forEach((option, index) => $("#options").append(html("li", option.option,"data-index=" + index + " class='option'")));
+  var newElement = html("li", option.option,"data-index=" + index + " class='option'");
+  currentOptions.forEach((option, index) => $("#options").append(newElement));
 
   $(".option").click(function(event) {
     var currentIndex = Number($(this).data("index"));
